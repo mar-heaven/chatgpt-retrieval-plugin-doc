@@ -14,14 +14,14 @@ The ChatGPT Retrieval Plugin repository provides a flexible solution for semanti
 
 | Directory                     | Description                                                                                                      |
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| [`datastore`](/datastore)     | Contains the core logic for storing and querying document embeddings using various vector database providers.    |
-| [`examples`](/examples)       | Includes example configurations, authentication methods, and provider-specific examples.                         |
-| [`models`](/models)           | Contains the data models used by the plugin, such as document and metadata models.                               |
-| [`scripts`](/scripts)         | Provides scripts for processing and uploading documents from different data sources.                             |
-| [`server`](/server)           | Houses the main FastAPI server implementation.                                                                   |
-| [`services`](/services)       | Contains utility services for tasks like chunking, metadata extraction, and PII detection.                       |
-| [`tests`](/tests)             | Includes integration tests for various vector database providers.                                                |
-| [`.well-known`](/.well-known) | Stores the plugin manifest file and OpenAPI schema, which define the plugin configuration and API specification. |
+| [`datastore`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/datastore)     | Contains the core logic for storing and querying document embeddings using various vector database providers.    |
+| [`examples`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/examples)       | Includes example configurations, authentication methods, and provider-specific examples.                         |
+| [`models`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/models)           | Contains the data models used by the plugin, such as document and metadata models.                               |
+| [`scripts`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/scripts)         | Provides scripts for processing and uploading documents from different data sources.                             |
+| [`server`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/server)           | Houses the main FastAPI server implementation.                                                                   |
+| [`services`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/services)       | Contains utility services for tasks like chunking, metadata extraction, and PII detection.                       |
+| [`tests`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/tests)             | Includes integration tests for various vector database providers.                                                |
+| [`.well-known`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known) | Stores the plugin manifest file and OpenAPI schema, which define the plugin configuration and API specification. |
 
 This README provides detailed information on how to set up, develop, and deploy the ChatGPT Retrieval Plugin.
 
@@ -83,7 +83,7 @@ A FastAPI server exposes the plugin's endpoints for upserting, querying, and del
 
 ### Memory Feature
 
-A notable feature of the Retrieval Plugin is its capacity to provide ChatGPT with memory. By utilizing the plugin's upsert endpoint, ChatGPT can save snippets from the conversation to the vector database for later reference (only when prompted to do so by the user). This functionality contributes to a more context-aware chat experience by allowing ChatGPT to remember and retrieve information from previous conversations. Learn how to configure the Retrieval Plugin with memory [here](/examples/memory).
+A notable feature of the Retrieval Plugin is its capacity to provide ChatGPT with memory. By utilizing the plugin's upsert endpoint, ChatGPT can save snippets from the conversation to the vector database for later reference (only when prompted to do so by the user). This functionality contributes to a more context-aware chat experience by allowing ChatGPT to remember and retrieve information from previous conversations. Learn how to configure the Retrieval Plugin with memory [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/examples/memory).
 
 ### Security
 
@@ -105,9 +105,9 @@ The plugin exposes the following endpoints for upserting, querying, and deleting
 
 - `/delete`: This endpoint allows deleting one or more documents from the vector database using their IDs, a metadata filter, or a delete_all flag. The endpoint expects at least one of the following parameters in the request body: `ids`, `filter`, or `delete_all`. The `ids` parameter should be a list of document IDs to delete; all document chunks for the document with these IDS will be deleted. The `filter` parameter should contain a subset of the following subfields: `source`, `source_id`, `document_id`, `url`, `created_at`, and `author`. The `delete_all` parameter should be a boolean indicating whether to delete all documents from the vector database. The endpoint returns a boolean indicating whether the deletion was successful.
 
-The detailed specifications and examples of the request and response models can be found by running the app locally and navigating to http://0.0.0.0:8000/openapi.json, or in the OpenAPI schema [here](/.well-known/openapi.yaml). Note that the OpenAPI schema only contains the `/query` endpoint, because that is the only function that ChatGPT needs to access. This way, ChatGPT can use the plugin only to retrieve relevant documents based on natural language queries or needs. However, if developers want to also give ChatGPT the ability to remember things for later, they can use the `/upsert` endpoint to save snippets from the conversation to the vector database. An example of a manifest and OpenAPI schema that give ChatGPT access to the `/upsert` endpoint can be found [here](/examples/memory).
+The detailed specifications and examples of the request and response models can be found by running the app locally and navigating to http://0.0.0.0:8000/openapi.json, or in the OpenAPI schema [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/openapi.yaml). Note that the OpenAPI schema only contains the `/query` endpoint, because that is the only function that ChatGPT needs to access. This way, ChatGPT can use the plugin only to retrieve relevant documents based on natural language queries or needs. However, if developers want to also give ChatGPT the ability to remember things for later, they can use the `/upsert` endpoint to save snippets from the conversation to the vector database. An example of a manifest and OpenAPI schema that give ChatGPT access to the `/upsert` endpoint can be found [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/examples/memory).
 
-To include custom metadata fields, edit the `DocumentMetadata` and `DocumentMetadataFilter` data models [here](/models/models.py), and update the OpenAPI schema [here](/.well-known/openapi.yaml). You can update this easily by running the app locally, copying the json found at http://0.0.0.0:8000/sub/openapi.json, and converting it to YAML format with [Swagger Editor](https://editor.swagger.io/). Alternatively, you can replace the `openapi.yaml` file with an `openapi.json` file.
+To include custom metadata fields, edit the `DocumentMetadata` and `DocumentMetadataFilter` data models [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/models.py), and update the OpenAPI schema [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/openapi.yaml). You can update this easily by running the app locally, copying the json found at http://0.0.0.0:8000/sub/openapi.json, and converting it to YAML format with [Swagger Editor](https://editor.swagger.io/). Alternatively, you can replace the `openapi.yaml` file with an `openapi.json` file.
 
 ## Quickstart
 
@@ -473,12 +473,12 @@ pytest ./tests/datastore/providers/test_qdrant_datastore.py
 
 #### Redis
 
-Use Redis as a low-latency vector engine by creating a Redis database with the [Redis Stack docker container](/examples/docker/redis/docker-compose.yml). For a hosted/managed solution, try [Redis Cloud](https://app.redislabs.com/#/).
+Use Redis as a low-latency vector engine by creating a Redis database with the [Redis Stack docker container](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/examples/docker/redis/docker-compose.yml). For a hosted/managed solution, try [Redis Cloud](https://app.redislabs.com/#/).
 
 - The database needs the RediSearch module (v 2.6 ++), which is included in the self-hosted docker compose above.
-- Run the App with the Redis docker image: `docker compose up -d` in [this dir](/examples/docker/redis/).
+- Run the App with the Redis docker image: `docker compose up -d` in [this dir](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/examples/docker/redis/).
 - The app automatically creates a Redis vector search index on the first run. Optionally, create a custom index with a specific name and set it as an environment variable (see below).
-- To enable more hybrid searching capabilities, adjust the document schema [here](/datastore/providers/redis_datastore.py).
+- To enable more hybrid searching capabilities, adjust the document schema [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/datastore/providers/redis_datastore.py).
 
 Environment Variables:
 
@@ -520,35 +520,35 @@ Append `docs` to the URL shown in the terminal and open it in a browser to acces
 
 You can personalize the Retrieval Plugin for your own use case by doing the following:
 
-- **Replace the logo**: Replace the image in [logo.png](/.well-known/logo.png) with your own logo.
+- **Replace the logo**: Replace the image in [logo.png](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/logo.png) with your own logo.
 
-- **Edit the data models**: Edit the `DocumentMetadata` and `DocumentMetadataFilter` data models in [models.py](/models/models.py) to add custom metadata fields. Update the OpenAPI schema in [openapi.yaml](/.well-known/openapi.yaml) accordingly. To update the OpenAPI schema more easily, you can run the app locally, then navigate to `http://0.0.0.0:8000/sub/openapi.json` and copy the contents of the webpage. Then go to [Swagger Editor](https://editor.swagger.io/) and paste in the JSON to convert it to a YAML format. You could also replace the [openapi.yaml](/.well-known/openapi.yaml) file with an openapi.json file in the [.well-known](/.well-known) folder.
+- **Edit the data models**: Edit the `DocumentMetadata` and `DocumentMetadataFilter` data models in [models.py](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/models/models.py) to add custom metadata fields. Update the OpenAPI schema in [openapi.yaml](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/openapi.yaml) accordingly. To update the OpenAPI schema more easily, you can run the app locally, then navigate to `http://0.0.0.0:8000/sub/openapi.json` and copy the contents of the webpage. Then go to [Swagger Editor](https://editor.swagger.io/) and paste in the JSON to convert it to a YAML format. You could also replace the [openapi.yaml](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/openapi.yaml) file with an openapi.json file in the [.well-known](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known) folder.
 
-- **Change the plugin name, description, and usage instructions**: Update the plugin name, user-facing description, and usage instructions for the model. You can either edit the descriptions in the [main.py](/server/main.py) file or update the [openapi.yaml](/.well-known/openapi.yaml) file. Follow the same instructions as in the previous step to update the OpenAPI schema.
+- **Change the plugin name, description, and usage instructions**: Update the plugin name, user-facing description, and usage instructions for the model. You can either edit the descriptions in the [main.py](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/server/main.py) file or update the [openapi.yaml](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/openapi.yaml) file. Follow the same instructions as in the previous step to update the OpenAPI schema.
 
-- **Enable ChatGPT to save information from conversations**: See the instructions in the [memory example folder](/examples/memory).
+- **Enable ChatGPT to save information from conversations**: See the instructions in the [memory example folder](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/examples/memory).
 
 ### Authentication Methods
 
 You can choose from four options for authenticating requests to your plugin:
 
-1. **No Authentication**: Anyone can add your plugin and use its API without any credentials. This option is suitable if you are only exposing documents that are not sensitive or already public. It provides no security for your data. If using this method, copy the contents of this [main.py](/examples/authentication-methods/no-auth/main.py) into the [actual main.py file](/server/main.py). Example manifest [here](/examples/authentication-methods/no-auth/ai-plugin.json).
+1. **No Authentication**: Anyone can add your plugin and use its API without any credentials. This option is suitable if you are only exposing documents that are not sensitive or already public. It provides no security for your data. If using this method, copy the contents of this [main.py](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/examples/authentication-methods/no-auth/main.py) into the [actual main.py file](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/server/main.py). Example manifest [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/examples/authentication-methods/no-auth/ai-plugin.json).
 
 2. **HTTP Bearer**: You can use a secret token as a header to authorize requests to your plugin. There are two variants of this option:
 
-   - **User Level** (default for this implementation): Each user who adds your plugin to ChatGPT must provide the bearer token when adding the plugin. You can generate and distribute these tokens using any tool or method you prefer, such as [jwt.io](https://jwt.io/). This method provides better security as each user has to enter the shared access token. If you require a unique access token for each user, you will need to implement this yourself in the [main.py](/server/main.py) file. Example manifest [here](/examples/authentication-methods/user-http/ai-plugin.json).
+   - **User Level** (default for this implementation): Each user who adds your plugin to ChatGPT must provide the bearer token when adding the plugin. You can generate and distribute these tokens using any tool or method you prefer, such as [jwt.io](https://jwt.io/). This method provides better security as each user has to enter the shared access token. If you require a unique access token for each user, you will need to implement this yourself in the [main.py](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/server/main.py) file. Example manifest [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/examples/authentication-methods/user-http/ai-plugin.json).
 
-   - **Service Level**: Anyone can add your plugin and use its API without credentials, but you must add a bearer token when registering the plugin. When you install your plugin, you need to add your bearer token, and will then receive a token from ChatGPT that you must include in your hosted manifest file. Your token will be used by ChatGPT to authorize requests to your plugin on behalf of all users who add it. This method is more convenient for users, but it may be less secure as all users share the same token and do not need to add a token to install the plugin. Example manifest [here](/examples/authentication-methods/service-http/ai-plugin.json).
+   - **Service Level**: Anyone can add your plugin and use its API without credentials, but you must add a bearer token when registering the plugin. When you install your plugin, you need to add your bearer token, and will then receive a token from ChatGPT that you must include in your hosted manifest file. Your token will be used by ChatGPT to authorize requests to your plugin on behalf of all users who add it. This method is more convenient for users, but it may be less secure as all users share the same token and do not need to add a token to install the plugin. Example manifest [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/examples/authentication-methods/service-http/ai-plugin.json).
 
-3. **OAuth**: Users must go through an OAuth flow to add your plugin. You can use an OAuth provider to authenticate users who add your plugin and grant them access to your API. This method offers the highest level of security and control, as users authenticate through a trusted third-party provider. However, you will need to implement the OAuth flow yourself in the [main.py](/server/main.py) file and provide the necessary parameters in your manifest file. Example manifest [here](/examples/authentication-methods/oauth/ai-plugin.json).
+3. **OAuth**: Users must go through an OAuth flow to add your plugin. You can use an OAuth provider to authenticate users who add your plugin and grant them access to your API. This method offers the highest level of security and control, as users authenticate through a trusted third-party provider. However, you will need to implement the OAuth flow yourself in the [main.py](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/server/main.py) file and provide the necessary parameters in your manifest file. Example manifest [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/examples/authentication-methods/oauth/ai-plugin.json).
 
-Consider the benefits and drawbacks of each authentication method before choosing the one that best suits your use case and security requirements. If you choose to use a method different to the default (User Level HTTP), make sure to update the manifest file [here](/.well-known/ai-plugin.json).
+Consider the benefits and drawbacks of each authentication method before choosing the one that best suits your use case and security requirements. If you choose to use a method different to the default (User Level HTTP), make sure to update the manifest file [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/ai-plugin.json).
 
 ## Deployment
 
-You can deploy your app to different cloud providers, depending on your preferences and requirements. However, regardless of the provider you choose, you will need to update two files in your app: [openapi.yaml](/.well-known/openapi.yaml) and [ai-plugin.json](/.well-known/ai-plugin.json). As outlined above, these files define the API specification and the AI plugin configuration for your app, respectively. You need to change the url field in both files to match the address of your deployed app.
+You can deploy your app to different cloud providers, depending on your preferences and requirements. However, regardless of the provider you choose, you will need to update two files in your app: [openapi.yaml](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/openapi.yaml) and [ai-plugin.json](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/ai-plugin.json). As outlined above, these files define the API specification and the AI plugin configuration for your app, respectively. You need to change the url field in both files to match the address of your deployed app.
 
-Before deploying your app, you might want to remove unused dependencies from your [pyproject.toml](/pyproject.toml) file to reduce the size of your app and improve its performance. Depending on the vector database provider you choose, you can remove the packages that are not needed for your specific provider.
+Before deploying your app, you might want to remove unused dependencies from your [pyproject.toml](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/pyproject.toml) file to reduce the size of your app and improve its performance. Depending on the vector database provider you choose, you can remove the packages that are not needed for your specific provider.
 
 Here are the packages you can remove for each vector database provider:
 
@@ -561,7 +561,7 @@ Here are the packages you can remove for each vector database provider:
 
 After removing the unnecessary packages from the `pyproject.toml` file, you don't need to run `poetry lock` and `poetry install` manually. The provided Dockerfile takes care of installing the required dependencies using the `requirements.txt` file generated by the `poetry export` command.
 
-Once you have deployed your app, consider uploading an initial batch of documents using one of [these scripts](/scripts) or by calling the `/upsert` endpoint, for example:
+Once you have deployed your app, consider uploading an initial batch of documents using one of [these scripts](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/scripts) or by calling the `/upsert` endpoint, for example:
 
 ```bash
 curl -X POST https://your-app-url.com/upsert \
@@ -621,7 +621,7 @@ BEARER_TOKEN=your_bearer_token \
 
 Alternatively, you could set environment variables in the [Fly.io Console](https://fly.io/dashboard).
 
-At this point, you can change the plugin url in your plugin manifest file [here](/.well-known/ai-plugin.json), and in your OpenAPI schema [here](/.well-known/openapi.yaml) to the url for your Fly.io app, which will be `https://your-app-name.fly.dev`.
+At this point, you can change the plugin url in your plugin manifest file [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main.well-known/ai-plugin.json), and in your OpenAPI schema [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/openapi.yaml) to the url for your Fly.io app, which will be `https://your-app-name.fly.dev`.
 
 Deploy your app with:
 
@@ -643,7 +643,7 @@ To view your app logs:
 flyctl logs
 ```
 
-Now, make sure you have changed the plugin url in your plugin manifest file [here](/.well-known/ai-plugin.json), and in your OpenAPI schema [here](/.well-known/openapi.yaml), and redeploy with `flyctl deploy`. This url will be `https://<your-app-name>.fly.dev`.
+Now, make sure you have changed the plugin url in your plugin manifest file [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/ai-plugin.json), and in your OpenAPI schema [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/openapi.yaml), and redeploy with `flyctl deploy`. This url will be `https://<your-app-name>.fly.dev`.
 
 **Debugging tips:**
 Fly.io uses port 8080 by default.
@@ -744,7 +744,7 @@ To view your app logs:
 heroku logs --tail -a [app-name]
 ```
 
-Now make sure to change the plugin url in your plugin manifest file [here](/.well-known/ai-plugin.json), and in your OpenAPI schema [here](/.well-known/openapi.yaml), and redeploy with `make heroku-push`. This url will be `https://your-app-name.herokuapp.com`.
+Now make sure to change the plugin url in your plugin manifest file [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/ai-plugin.json), and in your OpenAPI schema [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/openapi.yaml), and redeploy with `make heroku-push`. This url will be `https://your-app-name.herokuapp.com`.
 
 ### Other Deployment Options
 
@@ -754,7 +754,7 @@ Some possible other options for deploying the app are:
 - Google Cloud Run: This is a serverless platform that allows you to run stateless web apps using Docker containers. You can use the Google Cloud Console or the gcloud command-line tool to create and deploy your Cloud Run service, and then push your Docker image to the Google Container Registry and deploy it to your service. You can also set environment variables and scale your app using the Google Cloud Console. Learn more [here](https://cloud.google.com/run/docs/quickstarts/build-and-deploy).
 - AWS Elastic Container Service: This is a cloud platform that allows you to run and manage web apps using Docker containers. You can use the AWS CLI or the AWS Management Console to create and configure your ECS cluster, and then push your Docker image to the Amazon Elastic Container Registry and deploy it to your cluster. You can also set environment variables and scale your app using the AWS Management Console. Learn more [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html).
 
-After you create your app, make sure to change the plugin url in your plugin manifest file [here](/.well-known/ai-plugin.json), and in your OpenAPI schema [here](/.well-known/openapi.yaml), and redeploy.
+After you create your app, make sure to change the plugin url in your plugin manifest file [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/ai-plugin.json), and in your OpenAPI schema [here](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/openapi.yaml), and redeploy.
 
 ## Installing a Developer Plugin
 
@@ -768,7 +768,7 @@ To install a developer plugin, follow the steps below:
 
 - Go to "Develop your own plugin" and follow the instructions provided. You will need to enter the domain where your plugin is deployed.
 
-- Follow the instructions based on the authentication type you have chosen for your plugin (e.g. if your plugin uses Service Level HTTP, you will have to paste in your access token, then paste the new access token you receive from the plugin flow into your [ai-plugin.json](/.well-known/ai-plugin.json) file and redeploy your app).
+- Follow the instructions based on the authentication type you have chosen for your plugin (e.g. if your plugin uses Service Level HTTP, you will have to paste in your access token, then paste the new access token you receive from the plugin flow into your [ai-plugin.json](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/.well-known/ai-plugin.json) file and redeploy your app).
 
 - Next, you must add your plugin. Go to the "Plugin store" again and click on "Install an unverified plugin."
 
@@ -800,13 +800,13 @@ In addition to using tools like Zapier and Make, you can also build your own cus
 
 ## Scripts
 
-The `scripts` folder contains scripts to batch upsert or process text documents from different data sources, such as a zip file, JSON file, or JSONL file. These scripts use the plugin's upsert utility functions to upload the documents and their metadata to the vector database, after converting them to plain text and splitting them into chunks. Each script folder has a README file that explains how to use it and what parameters it requires. You can also optionally screen the documents for personally identifiable information (PII) using a language model and skip them if detected, with the [`services.pii_detection`](/services/pii_detection.py) module. This can be helpful if you want to avoid uploading sensitive or private documents to the vector database unintentionally. Additionally, you can optionally extract metadata from the document text using a language model, with the [`services.extract_metadata`](/services/extract_metadata.py) module. This can be useful if you want to enrich the document metadata. **Note:** if using incoming webhooks to continuously sync data, consider running a backfill after setting these up to avoid missing any data.
+The `scripts` folder contains scripts to batch upsert or process text documents from different data sources, such as a zip file, JSON file, or JSONL file. These scripts use the plugin's upsert utility functions to upload the documents and their metadata to the vector database, after converting them to plain text and splitting them into chunks. Each script folder has a README file that explains how to use it and what parameters it requires. You can also optionally screen the documents for personally identifiable information (PII) using a language model and skip them if detected, with the [`services.pii_detection`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/services/pii_detection.py) module. This can be helpful if you want to avoid uploading sensitive or private documents to the vector database unintentionally. Additionally, you can optionally extract metadata from the document text using a language model, with the [`services.extract_metadata`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/services/extract_metadata.py) module. This can be useful if you want to enrich the document metadata. **Note:** if using incoming webhooks to continuously sync data, consider running a backfill after setting these up to avoid missing any data.
 
 The scripts are:
 
-- [`process_json`](scripts/process_json/): This script processes a file dump of documents in a JSON format and stores them in the vector database with some metadata. The format of the JSON file should be a list of JSON objects, where each object represents a document. The JSON object should have a `text` field and optionally other fields to populate the metadata. You can provide custom metadata as a JSON string and flags to screen for PII and extract metadata.
-- [`process_jsonl`](scripts/process_jsonl/): This script processes a file dump of documents in a JSONL format and stores them in the vector database with some metadata. The format of the JSONL file should be a newline-delimited JSON file, where each line is a valid JSON object representing a document. The JSON object should have a `text` field and optionally other fields to populate the metadata. You can provide custom metadata as a JSON string and flags to screen for PII and extract metadata.
-- [`process_zip`](scripts/process_zip/): This script processes a file dump of documents in a zip file and stores them in the vector database with some metadata. The format of the zip file should be a flat zip file folder of docx, pdf, txt, md, pptx or csv files. You can provide custom metadata as a JSON string and flags to screen for PII and extract metadata.
+- [`process_json`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/scripts/process_json/): This script processes a file dump of documents in a JSON format and stores them in the vector database with some metadata. The format of the JSON file should be a list of JSON objects, where each object represents a document. The JSON object should have a `text` field and optionally other fields to populate the metadata. You can provide custom metadata as a JSON string and flags to screen for PII and extract metadata.
+- [`process_jsonl`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/scripts/process_jsonl/): This script processes a file dump of documents in a JSONL format and stores them in the vector database with some metadata. The format of the JSONL file should be a newline-delimited JSON file, where each line is a valid JSON object representing a document. The JSON object should have a `text` field and optionally other fields to populate the metadata. You can provide custom metadata as a JSON string and flags to screen for PII and extract metadata.
+- [`process_zip`](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/scripts/process_zip/): This script processes a file dump of documents in a zip file and stores them in the vector database with some metadata. The format of the zip file should be a flat zip file folder of docx, pdf, txt, md, pptx or csv files. You can provide custom metadata as a JSON string and flags to screen for PII and extract metadata.
 
 ## Limitations
 
@@ -828,7 +828,7 @@ Some ideas for future directions include:
 - **More vector database providers**: If you are interested in integrating another vector database provider with the ChatGPT Retrieval Plugin, feel free to submit an implementation.
 - **Additional scripts**: Expanding the range of scripts available for processing and uploading documents from various data sources would make the plugin even more versatile.
 - **User Interface**: Developing a user interface for managing documents and interacting with the plugin could improve the user experience.
-- **Hybrid search / TF-IDF option**: Enhancing the [datastore's upsert function](/datastore/datastore.py#L18) with an option to use hybrid search or TF-IDF indexing could improve the plugin's performance for keyword-based queries.
+- **Hybrid search / TF-IDF option**: Enhancing the [datastore's upsert function](https://github.com/openai/chatgpt-retrieval-plugin/tree/main/datastore/datastore.py#L18) with an option to use hybrid search or TF-IDF indexing could improve the plugin's performance for keyword-based queries.
 - **Advanced chunking strategies and embeddings calculations**: Implementing more sophisticated chunking strategies and embeddings calculations, such as embedding document titles and summaries, performing weighted averaging of document chunks and summaries, or calculating the average embedding for a document, could lead to better search results.
 - **Custom metadata**: Allowing users to add custom metadata to document chunks, such as titles or other relevant information, might improve the retrieved results in some use cases.
 - **Additional optional services**: Integrating more optional services, such as summarizing documents or pre-processing documents before embedding them, could enhance the plugin's functionality and quality of retrieved results. These services could be implemented using language models and integrated directly into the plugin, rather than just being available in the scripts.
